@@ -8,6 +8,7 @@ import {
   getDbItemById,
   DbItem,
   updateDbItemById,
+  deleteDbItemById,
 } from "./db";
 import filePath from "./filePath";
 
@@ -26,7 +27,7 @@ app.use(cors());
 dotenv.config();
 
 // use the environment variable PORT, or 4000 as a fallback
-const PORT_NUMBER = process.env.PORT ?? 4000;
+const PORT_NUMBER = process.env.PORT ?? 4001;
 
 // API info page
 app.get("/", (req, res) => {
@@ -61,7 +62,7 @@ app.get<{ id: string }>("/items/:id", (req, res) => {
 
 // DELETE /items/:id
 app.delete<{ id: string }>("/items/:id", (req, res) => {
-  const matchingSignature = getDbItemById(parseInt(req.params.id));
+  const matchingSignature = deleteDbItemById(parseInt(req.params.id));
   if (matchingSignature === "not found") {
     res.status(404).json(matchingSignature);
   } else {
